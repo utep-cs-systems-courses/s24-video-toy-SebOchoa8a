@@ -138,74 +138,13 @@ screen_update_ball()
 
 }
 
-
-
-
-
 short redrawScreen = 1;
 
 u_int controlFontColor = COLOR_GREEN;
+
 void wdt_c_handler()
-
 {
-
-  static int secCount = 0;
-
-
-
-  secCount ++;
-
-  if (secCount >= 25) {/* 10/sec */
-
-
-
-    {/* move ball */
-
-      short oldCol = controlPos[0];
-
-      short newCol = oldCol + colVelocity;
-
-      if (newCol <= colLimits[0] || newCol >= colLimits[1])
-
-	colVelocity = -colVelocity;
-
-      else
-
-	controlPos[0] = newCol;
-
-    }
-
-
-
-    {/* update hourglass */
-
-      if (switches & SW3) green = (green + 1) % 64;
-
-      if (switches & SW2) blue = (blue + 2) % 32;
-
-      if (switches & SW1) red = (red - 3) % 32;
-
-      if (step <= 30)
-
-	step ++;
-
-      else
-
-	step = 0;
-
-      secCount = 0;
-
-    }
-
-    if (switches & SW4) return;
-
-    redrawScreen = 1;
-
-  }
-
 }
-
-
 
 void update_shape();
 
@@ -235,7 +174,7 @@ void main()
 
 
 
-  clearScreen(COLOR_BLUE);
+  clearScreen(COLOR_BLACK);
 
   while (1) {/* forever */
 
@@ -259,99 +198,63 @@ void main()
 
 void
 
-screen_update_hourglass()
+makeFace()
 {
   int centerX = screenWidth / 2; // X-coordinate of circle center
-
   int centerY = screenHeight / 2; // Y-coordinate of circle center
-
   int radius = 50;  // Radius of the circle
-
-
 
   // Draw face outline (circle approximation)
 
   for (int x = centerX - radius; x <= centerX + radius; x++) {
-
     for (int y = centerY - radius; y <= centerY + radius; y++) {
-
       int distanceSquared = (x - centerX) * (x - centerX) + (y - centerY) * (y - centerY);
-
       if (distanceSquared <= radius * radius) {
-
 	drawPixel(x, y, COLOR_TAN); // Yellow face
-
       }
-
     }
-
   }
   
   static unsigned char row = screenHeight / 2, col = screenWidth / 2;
-
   static char lastStep = 0;
 
-
-
   // Define colors
-
   unsigned int openEyeColor = COLOR_GREEN; // White color for open eyes
-
   unsigned int closedEyeColor = COLOR_BLACK; // Black color for closed eyes
 
-
-
   // Determine eye state (open or closed)
-
   int eyeState = (step % 20 < 10) ? 1 : 0; // Blink every 20 steps (10 steps open, 10 steps closed)
 
-
-
   // Draw eyes
-
   int eyeRadius = 5;
-
   int eyeOffsetX = 15;
-
   int eyeOffsetY = 10;
-
   // Left eye
-
   for (int x = col - eyeOffsetX - eyeRadius; x <= col - eyeOffsetX + eyeRadius; x++) {
-
     for (int y = row - eyeOffsetY - eyeRadius; y <= row - eyeOffsetY + eyeRadius; y++) {
-
       int distanceSquared = (x - (col - eyeOffsetX)) * (x - (col - eyeOffsetX)) + (y - (row - eyeOffsetY)) * (y - (row - eyeOffsetY));
-
       if (distanceSquared <= eyeRadius * eyeRadius) {
-
 	drawPixel(x, y, (eyeState == 1) ? openEyeColor : closedEyeColor); // Draw eye based on state
-
       }
-
     }
-
   }
-
-
 
   // Right eye
 
   for (int x = col + eyeOffsetX - eyeRadius; x <= col + eyeOffsetX + eyeRadius; x++) {
-
     for (int y = row - eyeOffsetY - eyeRadius; y <= row - eyeOffsetY + eyeRadius; y++) {
-
       int distanceSquared = (x - (col + eyeOffsetX)) * (x - (col + eyeOffsetX)) + (y - (row - eyeOffsetY)) * (y - (row - eyeOffsetY));
-
       if (distanceSquared <= eyeRadius * eyeRadius) {
 	drawPixel(x, y, (eyeState == 1) ? openEyeColor : closedEyeColor); // Draw eye based on state
 
       }
-
     }
-
   }
+  
 }
+
+
+
 void
 
 update_shape()
@@ -360,7 +263,7 @@ update_shape()
 
   screen_update_ball();
 
-  screen_update_hourglass();
+  makeFace();
 
 }
 void
