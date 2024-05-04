@@ -3,26 +3,24 @@
 #include "switches.h"
 #include "statemachines.h"
 #include "buzzer.h"
-#include "notes.h"
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "wakedemo.h"
+
 void next_state(int state) {
-  green_off();
-  red_off();
+  unsigned int color;
   switch(state) {
 
   case 1:
-    flash(3);
+    color = COLOR_RED;
+    change_eye_color(color);
+    makeFace();
     green_off();
     red_on();
     green_on();
-    makeFace();
     mario_jingle();
     green_off();
     break;
-
-
 
   case 2:
     flash(3);

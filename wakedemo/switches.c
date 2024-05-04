@@ -4,7 +4,6 @@
 #include "statemachines.h"
 
 extern int redrawScreen;
-extern int eyes_state;
 
 void switch_init()
 

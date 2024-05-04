@@ -1,40 +1,40 @@
 #include <msp430.h>
-#include "libTimer.h"
+#include <stdio.h>
+#include <libTimer.h>
 #include "led.h"
 #include "switches.h"
 #include "buzzer.h"
-#include "wakedemo.h"
 #include "lcdutils.h"
 #include "lcddraw.h"
 #include "statemachines.h"
 #include "switches.h"
 #include "notes.h"
-#include "wakedemo.c"
+#include "buzzer.h"
+#include "wakedemo.h"
 
-extern short redrawScreen;
+extern int redrawScreen;
+int redrawScreen = 1;
+int eyes_open;
+int state;
 
 int main(void)
 {
   configureClocks();
+  lcd_init();
   switch_init(); // switches
   led_init(); // LED
   buzzer_init(); // Buzzer
   green_on();
   enableWDTInterrupts();
-
-  short redrawScreen = 1;
-
-  unsigned int color = COLOR_BLACK;
-
-  makeFace(color);
-  
+  or_sr(0x8);
+  state = 1;
+  eyes_open = 1;
   while(1)
     {
       if(redrawScreen)
 	{
 	  redrawScreen = 0;
-	  makeFace(COLOR_GREEN);
-	  
+	  update_eyes(state);
       }
       or_sr(0x10);
     }   
@@ -42,10 +42,15 @@ int main(void)
 
 void wdt_c_handler()
 {
-  unsigned char color;
-  if (switches & SW3) color = COLOR_BLUE;
-  if (switches & SW2) color = COLOR_PINK;
-  if (switches & SW1) color = COLOR_RED;
-  if (switches & SW4) return;
-  makeFace(color);
+  static int eyes_time = 0;
+
+  if(eyes_open)
+    {
+      if(eyes_time++ >= 1000)
+	{
+	  eyes_time = 0;
+	  state = 0;
+	  redrawScreen = 1;
+	}
+    }
 }

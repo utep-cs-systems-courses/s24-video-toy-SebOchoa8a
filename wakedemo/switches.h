@@ -12,7 +12,7 @@
 extern int state_flag;
 
 void switch_init();
-static char switch_update_interrupt_sense();
+char switch_update_interrupt_sense();
 char switch_zero_update_interrupt_sense();
 void switch_interrupt_handler();
 
