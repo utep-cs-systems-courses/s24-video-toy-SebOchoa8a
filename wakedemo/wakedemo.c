@@ -5,31 +5,26 @@
 #include "lcddraw.h"
 #include "wakedemo.h"
 
+unsigned int color = COLOR_BLACK;
+
 void update_eyes(int state)
 {
   if(state)
     {
       eyes_open = 1;
-      makeFace();
+      makeFace(color);
     }
-}
-
-unsigned int change_eye_color(unsigned int color)
-{
-  return color;
 }
 
 // axis zero for col, axis 1 for row
 short drawPos[2] = {1,10}, controlPos[2] = {2, 10};
 short colVelocity = 1, colLimits[2] = {1, screenWidth/2};
 
-void makeFace()
+void makeFace(unsigned int newColor)
 {
-  unsigned int color;
-  
-  // Hardcoded color values
-  unsigned int faceColor = COLOR_TAN;
-  unsigned int eyeColor = change_eye_color(color);
+   // Hardcoded color values
+  unsigned int faceColor = COLOR_PINK;
+  unsigned int eyeColor = color;
 
   int centerX = screenWidth / 2;  // X-coordinate of circle center
   int centerY = screenHeight / 2; // Y-coordinate of circle center

@@ -8,18 +8,11 @@
 #include "wakedemo.h"
 
 void next_state(int state) {
-  unsigned int color;
   switch(state) {
 
   case 1:
-    color = COLOR_RED;
-    change_eye_color(color);
-    makeFace();
-    green_off();
-    red_on();
-    green_on();
+    makeFace(COLOR_PINK);
     mario_jingle();
-    green_off();
     break;
 
   case 2:
