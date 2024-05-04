@@ -1,4 +1,7 @@
-.text
+
+
+
+	.text
 	.balign 2		;align to an even address
 	.global	WDT
 	;; WDT uses interrupt #11
@@ -24,7 +27,7 @@ WDT:
 	PUSH	R6
 	PUSH	R5
 	PUSH	R4
-	; end of prologue
+	; end of prolouge
 	CALL	#wdt_c_handler
 	; start of epilogue
 	POP	R4
@@ -38,7 +41,7 @@ WDT:
 	POP	R12
 	POP	R13
 	POP	R14
-	POP	R15
+	POP 	R15
 	cmp	#0, &redrawScreen
 	jz	dont_wake
 	and	#0xffef, 0(r1)	; clear CPU off in saved SR

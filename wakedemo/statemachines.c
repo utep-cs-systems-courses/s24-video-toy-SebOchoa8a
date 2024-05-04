@@ -6,8 +6,7 @@
 #include "notes.h"
 #include "lcdutils.h"
 #include "lcddraw.h"
-#include "wakedemo.c"
-
+#include "wakedemo.h"
 void next_state(int state) {
   green_off();
   red_off();
@@ -20,7 +19,6 @@ void next_state(int state) {
     green_on();
     makeFace();
     mario_jingle();
-    red_off();
     green_off();
     break;
 
