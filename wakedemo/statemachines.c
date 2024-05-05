@@ -38,7 +38,7 @@ void next_state(int state) {
 
   case 4:
     drawString5x7(20,20, "Thank you!", COLOR_GREEN, COLOR_BLACK);
-    drawDiagonal(screenHeight/2, screenWidth/2,30);
+    drawDiagonalAssembly(screenHeight/2, screenWidth/2,50);
     green_on();
     red_on();
     break;
