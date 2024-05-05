@@ -8,28 +8,43 @@
 #include "wakedemo.h"
 
 void next_state(int state) {
+  unsigned int newEyeColor;
+  unsigned int newFaceColor;
   switch(state) {
 
   case 1:
-    makeFace(COLOR_PINK);
-    mario_jingle();
+    newEyeColor = COLOR_BLUE;
+    newFaceColor = COLOR_PINK;
+    makeFace(newEyeColor, newFaceColor);
+    kirby_song();
     break;
 
   case 2:
+    newEyeColor = COLOR_RED;
+    newFaceColor = COLOR_BEIGE;
+    makeFace(newEyeColor, newFaceColor);
     flash(3);
+    mario_jingle();
     green_on();
     green_off();
     red_off();
     break;
 
   case 3:
+    newEyeColor = COLOR_BLACK;
+    newFaceColor = COLOR_BROWN;
+    makeFace(newEyeColor,newFaceColor);
+    break;
 
-    red_off();
+  case 4:
+    drawString5x7(20,20, "Thank you!", COLOR_GREEN, COLOR_BLACK);
+    drawDiagonal(screenHeight/2, screenWidth/2,30);
     green_on();
-    green_off();
+    red_on();
     break;
 
   default:
+    red_on();
     green_on();
     break;
   }
